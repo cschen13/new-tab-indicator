@@ -9,7 +9,7 @@ document.onmousemove = (event) => {
 const instrumentLink = (link) => {
   console.log("Instrumenting link...");
 
-  link.onmouseenter = function (event) {
+  link.onmouseenter = () => {
     indicator.style.display = "block";
   };
 

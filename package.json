@@ -1,0 +1,25 @@
+{
+  "name": "new-tab-indicator",
+  "version": "1.0.0",
+  "description": "Adds an icon next to the mouse cursor when hovering over a link that will open in a new tab or window.",
+  "main": "new-tab-indicator.js",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "jsdom": "^16.4.0",
+    "mocha": "^8.2.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cschen13/new-tab-indicator.git"
+  },
+  "author": "Chris Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cschen13/new-tab-indicator/issues"
+  },
+  "homepage": "https://github.com/cschen13/new-tab-indicator#readme"
+}
