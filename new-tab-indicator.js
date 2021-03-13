@@ -9,7 +9,11 @@ document.onmousemove = (event) => {
 const mutationObserver = new window.MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     if (mutation.type === "childList") {
-      mutation.addedNodes.forEach(handleMutationTargetNode);
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === 1 && node.nodeName === "A") {
+          handleMutationTargetNode(node);
+        }
+      });
     } else if (mutation.type === "attributes") {
       const node = mutation.target;
       handleMutationTargetNode(node);
@@ -56,14 +60,12 @@ function instrumentLink(link) {
   link.onmouseleave = () => {
     indicator.style.display = "none";
   };
-};
+}
 
 function handleMutationTargetNode(node) {
-  if (node.nodeType === 1 && node.nodeName === "A") {
-    const target = node.getAttribute("target");
-    const onclick = node.getAttribute("onclick");
-    if (target === "_blank" || onclick.includes("window.open(")) {
-      instrumentLink(node);
-    }
+  const target = node.getAttribute("target");
+  const onclick = node.getAttribute("onclick");
+  if (target === "_blank" || onclick?.includes("window.open(")) {
+    instrumentLink(node);
   }
-};
+}
