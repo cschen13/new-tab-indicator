@@ -6,42 +6,13 @@ document.onmousemove = (event) => {
   indicator.style.top = `${event.pageY + 12}px`;
 };
 
-const instrumentLink = (link) => {
-  console.log("Instrumenting link...");
-
-  link.onmouseenter = () => {
-    indicator.style.display = "block";
-  };
-
-  link.onmouseleave = () => {
-    indicator.style.display = "none";
-  };
-};
-
 const mutationObserver = new window.MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
-    console.log(mutation);
     if (mutation.type === "childList") {
-      console.log("new nodes added");
-      mutation.addedNodes.forEach((node) => {
-        if (node.nodeType === 1 && node.nodeName === "A") {
-          console.log(node);
-          const target = node.getAttribute("target");
-          const onclick = node.getAttribute("onclick");
-          if (target === "_blank" || onclick.includes("window.open(")) {
-            instrumentLink(node);
-          }
-        }
-      });
+      mutation.addedNodes.forEach(handleMutationTargetNode);
     } else if (mutation.type === "attributes") {
-      console.log("attributes changed");
-      if (mutation.target.nodeType === 1 && mutation.target.nodeName == "A") {
-        const target = node.getAttribute("target");
-        const onclick = node.getAttribute("onclick");
-        if (target === "_blank" || onclick.includes("window.open(")) {
-          instrumentLink(node);
-        }
-      }
+      const node = mutation.target;
+      handleMutationTargetNode(node);
     }
   });
 });
@@ -51,6 +22,8 @@ mutationObserver.observe(document.body, {
   subtree: true,
   attributeFilter: ["target", "onclick"],
 });
+
+getLinks().forEach(instrumentLink);
 
 function createIndicator() {
   const indicator = document.createElement("div");
@@ -66,8 +39,6 @@ function createIndicator() {
   return indicator;
 }
 
-setTimeout(() => getLinks().forEach(instrumentLink), 1000);
-
 function getLinks() {
   const links = document.querySelectorAll(
     // TODO: Handle <base target="_blank"> case.
@@ -76,3 +47,23 @@ function getLinks() {
 
   return links;
 }
+
+function instrumentLink(link) {
+  link.onmouseenter = () => {
+    indicator.style.display = "block";
+  };
+
+  link.onmouseleave = () => {
+    indicator.style.display = "none";
+  };
+};
+
+function handleMutationTargetNode(node) {
+  if (node.nodeType === 1 && node.nodeName === "A") {
+    const target = node.getAttribute("target");
+    const onclick = node.getAttribute("onclick");
+    if (target === "_blank" || onclick.includes("window.open(")) {
+      instrumentLink(node);
+    }
+  }
+};
