@@ -1,4 +1,4 @@
-# new-tab-indicator
+# New Tab Indicator
 Web extension that adds an icon next to the mouse cursor when hovering over a link that will open in a new tab or window.
 
 [Available as a Firefox extension.](https://addons.mozilla.org/en-US/firefox/addon/new-tab-indicator/)
