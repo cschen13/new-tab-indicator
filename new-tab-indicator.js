@@ -53,13 +53,17 @@ function getLinks() {
 }
 
 function instrumentLink(link) {
-  link.onmouseenter = () => {
+  link.addEventListener("mouseenter", () => {
     indicator.style.display = "block";
-  };
+  });
 
-  link.onmouseleave = () => {
+  link.addEventListener("mouseleave", () => {
     indicator.style.display = "none";
-  };
+  });
+
+  link.addEventListener("click", () => {
+    indicator.style.display = "none";
+  });
 }
 
 function handleMutationTargetNode(node) {

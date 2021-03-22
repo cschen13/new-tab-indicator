@@ -8,8 +8,13 @@ describe("Mutator", function () {
 
     // Give MutationObserver time to handle mutation event
     setTimeout(() => {
-      assert.isFunction(newLink.onmouseenter);
-      assert.isFunction(newLink.onmouseleave);
+      const indicator = global.document.querySelector("div");
+
+      newLink.dispatchEvent(new window.MouseEvent("mouseenter"));
+      assert.equal(indicator.style.display, "block");
+
+      newLink.dispatchEvent(new window.MouseEvent("mouseleave"));
+      assert.equal(indicator.style.display, "none");
     });
   });
 
@@ -19,8 +24,9 @@ describe("Mutator", function () {
 
     // Give MutationObserver time to handle mutation event
     setTimeout(() => {
-      assert.isNull(newLink.onmouseenter);
-      assert.isNull(newLink.onmouseleave);
+      const indicator = global.document.querySelector("div");
+      newLink.dispatchEvent(new window.MouseEvent("mouseenter"));
+      assert.equal(indicator.style.display, "none");
     });
   });
 
@@ -30,8 +36,13 @@ describe("Mutator", function () {
 
     // Give MutationObserver time to handle mutation event
     setTimeout(() => {
-      assert.isFunction(existingLink.onmouseenter);
-      assert.isFunction(existingLink.onmouseleave);
+      const indicator = global.document.querySelector("div");
+      
+      existingLink.dispatchEvent(new window.MouseEvent("mouseenter"));
+      assert.equal(indicator.style.display, "block");
+
+      existingLink.dispatchEvent(new window.MouseEvent("mouseleave"));
+      assert.equal(indicator.style.display, "none");
     });
   });
 
@@ -41,8 +52,13 @@ describe("Mutator", function () {
 
     // Give MutationObserver time to handle mutation event
     setTimeout(() => {
-      assert.isFunction(existingLink.onmouseenter);
-      assert.isFunction(existingLink.onmouseleave);
+      const indicator = global.document.querySelector("div");
+      
+      existingLink.dispatchEvent(new window.MouseEvent("mouseenter"));
+      assert.equal(indicator.style.display, "block");
+
+      existingLink.dispatchEvent(new window.MouseEvent("mouseleave"));
+      assert.equal(indicator.style.display, "none");
     });
   });
 });
